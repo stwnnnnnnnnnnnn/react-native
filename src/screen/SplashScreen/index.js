@@ -8,9 +8,9 @@ export default function SplashScreen(props) {
   }, []);
 
   const checkToken = async () => {
-    const token = await AsyncStorage.getItem('token');
+    const cause = await AsyncStorage.getItem('token');
     setTimeout(() => {
-      if (token) {
+      if (cause) {
         props.navigation.replace('AppScreen');
       } else {
         props.navigation.replace('AuthScreen');

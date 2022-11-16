@@ -3,7 +3,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const axiosApiIntances = axios.create({
   // baseURL: 'https://event-organizing-backend.vercel.app/api/',
-  baseURL: 'http://192.168.1.61:3001/api/',
+  baseURL: 'https://stwn-event-organizer-backend.vercel.app/api/',
+
+  // baseURL: 'https://stwn-event-organizer-backend-9zfd6ymxf-setyawandwiki.vercel.app/api/',
+  // baseURL: 'http://192.168.1.61:3001/api/',
 });
 
 // Add a request interceptor

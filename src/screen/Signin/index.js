@@ -55,20 +55,21 @@ export default function Signin(props) {
         <Text style={styles.title2}>Hi, Welcome back to urticket</Text>
       </View>
       <View>
-        <TextInput
+        {/* <TextInput
           style={styles.textInput}
           // onChangeText={text => handleChangeForm(text, 'email')}
-        />
+        /> */}
         <TextInput
           style={styles.textInput}
           name="email"
+          placeholder='Email'
           onChangeText={text => handleChangeForm(text, 'email')}
         />
         <View style={styles.textBoxParent}>
           <TextInput
             secureTextEntry={togglePassword ? true : false}
             style={styles.textBox}
-            placeholder="Állat neve"
+            placeholder="Password"
             name="password"
             onChangeText={text => handleChangeForm(text, 'password')}
           />

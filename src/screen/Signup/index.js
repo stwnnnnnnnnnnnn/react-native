@@ -11,18 +11,37 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Checkbox} from 'react-native-paper';
+import axios from '../../utils/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 // import {TextInput} from 'react-native-paper';
 
 export default function Signup(props) {
   const [checked, setChecked] = useState(false);
   const [togglePassword1, setTogglePassword1] = useState(false);
   const [togglePassword2, setTogglePassword2] = useState(false);
+  const [form, setForm] = useState({});
 
-  const handleLogin = () => {
-    props.navigation.replace('AppScreen', {screen: 'MenuNavigator'});
+  const handleSingUp =  async () => {
+    
+    try {
+      console.log("form :")
+      console.log(form);
+      const result = await axios.post('auth/register', form);
+      console.log(result)
+      await AsyncStorage.setItem('userId', result.data.data.userId);
+      await AsyncStorage.setItem('token', result.data.data.token);
+      await AsyncStorage.setItem('refreshToken', result.data.data.refreshToken);
+      alert(result.data.message);
+      props.navigation.replace('AppScreen', {screen: 'MenuNavigator'});
+    } catch (error) {
+      console.log(error);
+    }
+
   };
-  const navSignup = () => {
-    props.navigation.navigate('Signup');
+  const navSingIn = () => {
+    props.navigation.navigate('Signin');
   };
 
   const handleChange = param => {
@@ -31,6 +50,10 @@ export default function Signup(props) {
     } else {
       setTogglePassword2(!togglePassword2);
     }
+  };
+
+  const handleChangeForm = (key,value) => {
+    setForm({...form, [key]: value});
   };
 
   return (
@@ -44,13 +67,25 @@ export default function Signup(props) {
         </TouchableOpacity>
       </View>
       <View>
-        <TextInput style={styles.textInput} />
-        <TextInput style={styles.textInput} />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Username"
+          name="Username"
+          onChangeText={text => handleChangeForm("username", text)}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Email"
+          name="email"
+          onChangeText={text => handleChangeForm("email", text)}
+        />
         <View style={styles.textBoxParent}>
           <TextInput
             secureTextEntry={togglePassword1 ? true : false}
             style={styles.textBox}
-            placeholder="Állat neve"
+            placeholder="Password"
+            name="password"
+            onChangeText={text => handleChangeForm("password", text)}
           />
           <TouchableOpacity
             style={styles.textBoxButton}
@@ -64,7 +99,7 @@ export default function Signup(props) {
           <TextInput
             secureTextEntry={togglePassword2 ? true : false}
             style={styles.textBox}
-            placeholder="Állat neve"
+            placeholder="Password confirm"
           />
           <TouchableOpacity
             style={styles.textBoxButton}
@@ -78,11 +113,11 @@ export default function Signup(props) {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password</Text>
       </TouchableOpacity>
-      <Pressable style={styles.buttonLogin} onPress={handleLogin}>
+      <Pressable style={styles.buttonLogin} onPress={handleSingUp}>
         <Text style={styles.text}>Sign up</Text>
       </Pressable>
-      <TouchableOpacity style={styles.buttonSignup} onPress={navSignup}>
-        <Text style={{color: 'white'}}>Signup</Text>
+      <TouchableOpacity style={styles.buttonSignup} onPress={navSingIn}>
+        <Text style={{color: 'white'}}>Sign in</Text>
       </TouchableOpacity>
 
       {/* <Checkbox
